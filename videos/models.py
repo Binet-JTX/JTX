@@ -14,6 +14,7 @@ class Video(models.Model):
 class Proj(models.Model):
     titre = models.CharField(max_length=100)
     date = models.DateTimeField()
+    views = models.IntegerField(default=0)
     public = models.BooleanField(default=False)
     def __str__(self):
         return self.titre
@@ -35,3 +36,9 @@ class Relation_comment(models.Model):
     video = models.ForeignKey(Video)
     def __str__(self):
         return self.video.titre + " : " + self.comment
+
+class Relation_comment_proj(models.Model):
+    comment = models.CharField(max_length=1000)
+    proj = models.ForeignKey(Proj)
+    def __str__(self):
+        return self.proj.titre + " : " + self.comment

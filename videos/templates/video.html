@@ -1,7 +1,17 @@
 {% if video %}
   <h1>{{ video.titre }}</h1>
   <h2>{{ video.date }}</h2>
-  {{ video.url }}
+  <a href="{{ video.url }}">La vidéo</a>
   <br/>
-  Vues : {{ video.views }}
+  Tags :
+  {% for r in video.relation_tag_set.all %}
+    {{ r.tag }}
+  {% endfor %}
+ <br/>
+{  Vues : {{ video.views }}
+
+	{% for r in video.relation_comment_set.all %}
+		<p>{{ r.comment }}</p>
+	{% endfor %}
+
 {% endif %}

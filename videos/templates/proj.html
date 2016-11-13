@@ -2,8 +2,15 @@
   <h1>{{ proj.titre }}</h1>
   <h2>{{ proj.date }}</h2>
   <ul>
-    {% for v in videos_list %}
-      <li><a href="/video/{{ v.id }}/">{{ v.titre }}</a></li>
+    {% for r in proj.relation_proj_set.all %}
+    <li><a href="{% url 'video' r.video.id %}">{{ r.video.titre }}</a></li>
     {% endfor %}
   </ul>
+
+Vues : {{ proj.views }}
+
+	{% for r in proj.relation_comment_proj_set.all %}
+		<p>{{ r.comment }}</p>
+	{% endfor %}
+
 {% endif %}
