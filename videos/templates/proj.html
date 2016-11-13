@@ -1,0 +1,9 @@
+{% if proj %}
+  <h1>{{ proj.titre }}</h1>
+  <h2>{{ proj.date }}</h2>
+  <ul>
+    {% for v in videos_list %}
+      <li><a href="/video/{{ v.id }}/">{{ v.titre }}</a></li>
+    {% endfor %}
+  </ul>
+{% endif %}

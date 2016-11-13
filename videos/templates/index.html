@@ -1,0 +1,17 @@
+{% if videos and projs %}
+<h1>Projs</h1>
+	<ul>
+	{% for p in projs %}
+		<li><a href="/videos/{{ p.id }}/">{{ p.titre }}</a></li>
+	{% endfor %}
+	</ul>
+<h1>Videos</h1>
+	<ul>
+	{% for v in videos %}
+			<li><a href="/videos/video/{{ v.id }}/">{{ v.titre }}</a></li>
+	{% endfor %}
+	</ul>
+
+{% else %}
+    <p>Errors.</p>
+{% endif %}
