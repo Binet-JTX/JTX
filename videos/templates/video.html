@@ -8,7 +8,7 @@
     {{ r.tag }}
   {% endfor %}
  <br/>
-{  Vues : {{ video.views }}
+  Vues : {{ video.views }}
 
 	{% for r in video.relation_comment_set.all %}
 		<p>{{ r.comment }}</p>
