@@ -3,7 +3,7 @@
   <h2>{{ proj.date }}</h2>
   <ul>
     {% for r in proj.relation_proj_set.all %}
-    <li><a href="{% url 'video' r.video.id %}">{{ r.video.titre }}</a></li>
+    <li><a href="{% url 'videos:video' r.video.id %}">{{ r.video.titre }}</a></li>
     {% endfor %}
   </ul>
 

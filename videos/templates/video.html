@@ -1,7 +1,11 @@
 {% if video %}
+{% load static %}
   <h1>{{ video.titre }}</h1>
   <h2>{{ video.date }}</h2>
-  <a href="{{ video.url }}">La vidéo</a>
+	<video width="50%" controls>
+    <source src="{% static 'videos/' %}{{video.url}}" type="video/mp4">
+		Your browser does not support the video tag.
+	</video>
   <br/>
   Tags :
   {% for r in video.relation_tag_set.all %}
@@ -13,5 +17,15 @@
 	{% for r in video.relation_comment_set.all %}
 		<p>{{ r.comment }}</p>
 	{% endfor %}
+
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'videos:comment_video' video.id %}" method="post">
+{% csrf_token %}
+<input type="text" name="comment" id="comment" />
+<input type="submit" value="Post" />
+</form>
+
 
 {% endif %}

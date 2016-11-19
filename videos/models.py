@@ -8,37 +8,48 @@ class Video(models.Model):
     url = models.CharField(max_length=1000)
     views = models.IntegerField(default=0)
     public = models.BooleanField(default=False)
-    def __str__(self):
+    def __unicode__(self):
+        return self.titre
+
+class Tag(models.Model):
+    titre = models.CharField(max_length=100)
+    def __unicode__(self):
+        return self.titre
+
+class Category(models.Model):
+    titre = models.CharField(max_length=100)
+    public = models.BooleanField(default=False)
+    def __unicode__(self):
         return self.titre
 
 class Proj(models.Model):
     titre = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, blank = True, null = True)
     date = models.DateTimeField()
     views = models.IntegerField(default=0)
-    public = models.BooleanField(default=False)
-    def __str__(self):
+    def __unicode__(self):
         return self.titre
 
 class Relation_proj(models.Model):
     proj = models.ForeignKey(Proj)
     video = models.ForeignKey(Video)
-    def __str__(self):
-        return self.proj.titre + " : " + self.video.titre
+    def __unicode__(self):
+        return self.proj.titre + u" : " + self.video.titre
 
 class Relation_tag(models.Model):
-    tag = models.CharField(max_length=100)
+    tag = models.ForeignKey(Tag)
     video = models.ForeignKey(Video)
-    def __str__(self):
-        return self.video.titre + " : " + self.tag
+    def __unicode__(self):
+        return self.video.titre + u" : " + self.tag.titre
 
 class Relation_comment(models.Model):
     comment = models.CharField(max_length=1000)
     video = models.ForeignKey(Video)
-    def __str__(self):
-        return self.video.titre + " : " + self.comment
+    def __unicode__(self):
+        return self.video.titre + u" : " + self.comment
 
 class Relation_comment_proj(models.Model):
     comment = models.CharField(max_length=1000)
     proj = models.ForeignKey(Proj)
-    def __str__(self):
-        return self.proj.titre + " : " + self.comment
+    def __unicode__(self):
+        return self.proj.titre + u" : " + self.comment
