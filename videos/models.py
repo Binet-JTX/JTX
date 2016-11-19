@@ -24,7 +24,7 @@ class Category(models.Model):
 
 class Proj(models.Model):
     titre = models.CharField(max_length=100)
-    category = models.ForeignKey(Category, blank = True, null = True)
+    category = models.ForeignKey(Category)
     date = models.DateTimeField()
     views = models.IntegerField(default=0)
     def __unicode__(self):
