@@ -1,6 +1,9 @@
+{% extends 'base.html' %}
+
+{% block body %}
 {% if proj %}
   <h1>{{ proj.titre }}</h1>
-  <h2>{{ proj.date }}</h2>
+  <h2>{{ proj.date|date:"d/m/Y"  }}</h2>
   <ul>
     {% for r in proj.relation_proj_set.all %}
     <li><a href="{% url 'videos:video' r.video.id %}">{{ r.video.titre }}</a></li>
@@ -14,3 +17,4 @@ Vues : {{ proj.views }}
 	{% endfor %}
 
 {% endif %}
+{% endblock %}

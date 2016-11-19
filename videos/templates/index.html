@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+{% block body %}
+
 {% if videos and projs %}
 <h1>Projs</h1>
 	<ul>
@@ -15,3 +18,5 @@
 {% else %}
     <p>Errors.</p>
 {% endif %}
+
+{% endblock %}
