@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% if projs %}
+<h1>Projs</h1>
+	<ul>
+	{% for p in projs %}
+    <li><a href="{% url 'videos:proj' p.id %}">{{ p.titre }}</a></li>
+	{% endfor %}
+	</ul>
+
+{% else %}
+    <p>Errors.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% if videos %}
+<h1>Videos</h1>
+	<ul>
+	{% for v in videos %}
+    <li><a href="{% url 'videos:video' v.id %}">{{ v.titre }}</a></li>
+	{% endfor %}
+	</ul>
+
+{% else %}
+    <p>Errors.</p>
+{% endif %}
+
+{% endblock %}

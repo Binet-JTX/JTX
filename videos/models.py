@@ -1,10 +1,11 @@
 from __future__ import unicode_literals
+import datetime
 
 from django.db import models
 
 class Video(models.Model):
     titre = models.CharField(max_length=100)
-    date = models.DateTimeField()
+    date = models.DateField(default=datetime.date.today)
     url = models.CharField(max_length=1000)
     views = models.IntegerField(default=0)
     public = models.BooleanField(default=False)
@@ -25,7 +26,7 @@ class Category(models.Model):
 class Proj(models.Model):
     titre = models.CharField(max_length=100)
     category = models.ForeignKey(Category)
-    date = models.DateTimeField()
+    date = models.DateField(default=datetime.date.today)
     views = models.IntegerField(default=0)
     def __unicode__(self):
         return self.titre
@@ -45,11 +46,13 @@ class Relation_tag(models.Model):
 class Relation_comment(models.Model):
     comment = models.CharField(max_length=1000)
     video = models.ForeignKey(Video)
+    date = models.DateTimeField(auto_now_add = True)
     def __unicode__(self):
         return self.video.titre + u" : " + self.comment
 
 class Relation_comment_proj(models.Model):
     comment = models.CharField(max_length=1000)
     proj = models.ForeignKey(Proj)
+    date = models.DateTimeField(auto_now_add = True)
     def __unicode__(self):
         return self.proj.titre + u" : " + self.comment

@@ -6,15 +6,17 @@
 {% load static %}
   <h1>{{ video.titre }}</h1>
   <h2>{{ video.date|date:"d/m/Y" }}</h2>
-	<video width="50%" controls preload>
+	<video width="720px" height="405px" controls autoplay>
     <source src="{% static 'videos/' %}{{video.url}}" type="video/mp4">
 		Your browser does not support the video tag.
 	</video>
   <br/>
+  <br/>
   Tags :
   {% for r in video.relation_tag_set.all %}
-    <span class="tag">{{ r.tag }}</span>
+    <a class="tag" href="{% url 'videos:tag' r.tag.id %}">{{ r.tag }}</a>
   {% endfor %}
+ <br/>
  <br/>
   Vues : {{ video.views }}
 

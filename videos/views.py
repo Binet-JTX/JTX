@@ -13,6 +13,35 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+def projs(request):
+    projs = Proj.objects.all()
+    context = {
+        'projs': projs,
+    }
+    return render(request, 'projs.html', context)
+
+
+def tags(request):
+    tags = Tag.objects.all()
+    context = {
+        'tags': tags,
+    }
+    return render(request, 'tags.html', context)
+
+
+def videos(request):
+    videos = Video.objects.all()
+    context = {
+        'videos': videos,
+    }
+    return render(request, 'videos.html', context)
+
+
+
+def tag(request, tag_id):
+    tag = get_object_or_404(Tag, pk=tag_id)
+    return render(request, 'tag.html', {'tag': tag})
+
 def video(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
     video.views += 1
@@ -32,12 +61,18 @@ def proj(request, proj_id):
 
 def comment_video(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
+    comment = request.POST['comment']
 
-    # Create a relation_comment
+    c = Relation_comment(video = video, comment = comment)
+    c.save()
     return HttpResponseRedirect(reverse('videos:video', args=(video.id,)))
 
 def comment_proj(request, proj_id):
     proj = get_object_or_404(Proj, pk=proj_id)
+    comment = request.POST['comment']
+
+    c = Relation_comment_proj(proj = proj, comment = comment)
+    c.save()
 
     # Create a relation_comment_proj
     return HttpResponseRedirect(reverse('videos:proj', args=(proj.id,)))

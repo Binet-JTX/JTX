@@ -3,8 +3,19 @@ from .models import *
 
 admin.site.register(Tag)
 admin.site.register(Relation_proj)
-admin.site.register(Relation_comment)
-admin.site.register(Relation_comment_proj)
+
+class CommentProjAdmin(admin.ModelAdmin):
+    list_display = ['comment', 'proj', 'date']
+    list_filter = ['proj', 'date']
+    search_fields = ['comment', 'proj__titre']
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['comment', 'video', 'date']
+    list_filter = ['video', 'date']
+    search_fields = ['comment', 'video__titre']
+
+admin.site.register(Relation_comment, CommentAdmin)
+admin.site.register(Relation_comment_proj, CommentProjAdmin)
 
 # --------------------
 # --------------------

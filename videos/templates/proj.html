@@ -2,11 +2,52 @@
 
 {% block body %}
 {% if proj %}
+{% load static %}
   <h1>{{ proj.titre }}</h1>
-  <h2>{{ proj.date|date:"d/m/Y"  }}</h2>
+  <h4>{{ proj.date|date:"d/m/Y"  }}</h4>
+	<h2 id="titre_video"></h2>
+
+	<video id="video" width="720px" height="405px" controls></video>
+
+<script type="text/javascript">
+var video = document.getElementById('video');
+var source = document.createElement('source');
+video.appendChild(source);
+var titre = document.getElementById('titre_video');
+var current = 0;
+
+var playlist = []
+{% for r in proj.relation_proj_set.all %}
+playlist[{{ forloop.counter }}] = ['{{ r.video.titre }}', '{{ r.video.url }}']
+{% endfor %}
+
+function launch(id) {
+	current = id;
+	video.pause();
+	titre.innerHTML = playlist[id][0];
+	source.setAttribute('src', "{% static 'videos/' %}" + playlist[id][1]);
+	video.load();
+	video.play();
+}
+
+video.addEventListener('ended',next,false);
+function next(e) {
+	current += 1;
+	if (current < playlist.length) {
+		launch(current);
+	}
+}
+
+
+launch(1);
+</script>
+
   <ul>
     {% for r in proj.relation_proj_set.all %}
-    <li><a href="{% url 'videos:video' r.video.id %}">{{ r.video.titre }}</a></li>
+    <li>
+			<a href="#" onclick="launch({{forloop.counter}})">{{ r.video.titre }}</a>
+			<a href="{% url 'videos:video' r.video.id %}">(Voir)</a>
+		</li>
     {% endfor %}
   </ul>
 
@@ -15,6 +56,12 @@ Vues : {{ proj.views }}
 	{% for r in proj.relation_comment_proj_set.all %}
 		<p>{{ r.comment }}</p>
 	{% endfor %}
+
+<form action="{% url 'videos:comment_proj' proj.id %}" method="post">
+{% csrf_token %}
+<input type="text" name="comment" id="comment" />
+<input type="submit" value="Post" />
+</form>
 
 {% endif %}
 {% endblock %}

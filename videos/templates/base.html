@@ -17,8 +17,9 @@
 	<div id="navigation_bar">"
 		<ul>
 			<li><a href="/">Home</a></li>
-			<li><a href="#">Projections</a></li>
-			<li><a href="#">Vidéos</a></li>
+      <li><a href="{% url 'videos:projs' %}">Projections</a></li>
+      <li><a href="{% url 'videos:videos' %}">Vidéos</a></li>
+      <li><a href="{% url 'videos:tags' %}">Tags</a></li>
 			<li><a href="#">À propos</a></li>
 		</ul>
 	</div>
