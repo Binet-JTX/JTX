@@ -4,7 +4,7 @@ import datetime
 from django.db import models
 
 class Video(models.Model):
-    titre = models.CharField(max_length=101)
+    titre = models.CharField(max_length=100)
     date = models.DateField(default=datetime.date.today)
     url = models.CharField(max_length=1000)
     views = models.IntegerField(default=0)
