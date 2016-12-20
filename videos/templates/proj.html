@@ -18,7 +18,7 @@ var current = 0;
 
 var playlist = []
 {% for r in proj.relation_proj_set.all %}
-playlist[{{ forloop.counter }}] = ['{{ r.video.titre }}', '{{ r.video.url }}']
+playlist[{{ forloop.counter }}] = ['{{ r.video.titre }}', '{{r.video.url}}.{{r.video.extension}}']
 {% endfor %}
 
 function launch(id) {
@@ -52,16 +52,25 @@ launch(1);
   </ul>
 
 Vues : {{ proj.views }}
+<br/>
+{% for r in proj.relation_comment_proj_set.all %}
+    <br/>
+    <strong>{{r.author.username }}</strong> : 
+    {{ r.comment }}
+{% endfor %}
 
-	{% for r in proj.relation_comment_proj_set.all %}
-		<p>{{ r.comment }}</p>
-	{% endfor %}
+{% if request.user.is_authenticated %}
+
+<br/>
+<br/>
 
 <form action="{% url 'videos:comment_proj' proj.id %}" method="post">
 {% csrf_token %}
 <input type="text" name="comment" id="comment" />
-<input type="submit" value="Post" />
+<input type="submit" value="Poster" />
 </form>
+
+{% endif %}
 
 {% endif %}
 {% endblock %}

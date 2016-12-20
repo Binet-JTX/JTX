@@ -7,9 +7,15 @@
   <h1>{{ video.titre }}</h1>
   <h2>{{ video.date|date:"d/m/Y" }}</h2>
 	<video width="720px" height="405px" controls autoplay>
-    <source src="{% static 'videos/' %}{{video.url}}" type="video/mp4">
+        <source src="{% static 'videos/' %}{{video.url}}.{{video.extension}}" type="video/mp4">
 		Your browser does not support the video tag.
 	</video>
+  
+{% if request.user.is_authenticated %}
+<br/>
+  <a href="{% url 'videos:favorite' video.id %}">Ajouter aux favoris</a>
+{% endif %}
+
   <br/>
   <br/>
   Tags :
@@ -20,19 +26,26 @@
  <br/>
   Vues : {{ video.views }}
 
-	{% for r in video.relation_comment_set.all %}
-		<p>{{ r.comment }}</p>
-	{% endfor %}
+  <br/>
+{% for r in video.relation_comment_set.all %}
+    <br/>
+    <strong>{{ r.author.username }}</strong> :
+    {{ r.comment }}
+{% endfor %}
 
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if request.user.is_authenticated %}
+
+<br/>
+<br/>
 
 <form action="{% url 'videos:comment_video' video.id %}" method="post">
 {% csrf_token %}
 <input type="text" name="comment" id="comment" />
-<input type="submit" value="Post" />
+<input type="submit" value="Poster" />
 </form>
 
+{% endif %}
 
 {% endif %}
 

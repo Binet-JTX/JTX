@@ -9,12 +9,16 @@
     <li><a href="{% url 'videos:proj' p.id %}">{{ p.titre }}</a></li>
 	{% endfor %}
 	</ul>
+{% load static %}
 <h1>Videos</h1>
-	<ul>
 	{% for v in videos %}
-    <li><a href="{% url 'videos:video' v.id %}">{{ v.titre }}</a></li>
+    <a href="{% url 'videos:video' v.id %}">
+        <figure style="display:table-cell">
+            <img width="300px" src="{% static 'snapshots/' %}{{v.url}}.jpg"/>
+            <figcaption style="font-size:20px">{{v.titre}}</figcaption>
+        </figure>
+    </a>
 	{% endfor %}
-	</ul>
 
 {% else %}
     <p>Errors.</p>

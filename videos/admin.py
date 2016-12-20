@@ -4,10 +4,16 @@ from django.contrib.auth.models import User
 
 admin.site.register(Tag)
 admin.site.register(Relation_proj)
+admin.site.register(Favorite)
+
+class FavoriteInline(admin.TabularInline):
+    model = Favorite
+    user = User
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ['username', 'email', 'first_name', 'last_name']
     search_fields = ['username', 'email', 'first_name', 'last_name']
+    inlines = [FavoriteInline]
 
 class CommentProjAdmin(admin.ModelAdmin):
     list_display = ['comment', 'proj', 'date']
@@ -36,10 +42,6 @@ class VideoAdmin(admin.ModelAdmin):
     list_display = ['titre', 'date', 'views', 'public']
     list_filter = ['date', 'views', 'public']
     search_fields = ['titre']
-    fieldsets = [
-        (None, {'fields' : ['url', 'titre', 'public']}),
-        ('Date and views', {'fields' : ['date', 'views'], 'classes' : ['collapse']}),
-    ]
     inlines = [TagInline]
 
 admin.site.register(Video, VideoAdmin)

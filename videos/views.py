@@ -37,8 +37,6 @@ def videos(request):
     }
     return render(request, 'videos.html', context)
 
-
-
 def tag(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)
     return render(request, 'tag.html', {'tag': tag})
@@ -60,20 +58,28 @@ def proj(request, proj_id):
     }
     return render(request, 'proj.html', context)
 
-def comment_video(request, video_id):
-    video = get_object_or_404(Video, pk=video_id)
-    comment = request.POST['comment']
+def favorite(request, video_id):
+    if request.user.is_authenticated:
+        video = get_object_or_404(Video, pk=video_id)
+        user = request.user
+        c = Favorite(user = user, video = video)
+        c.save()
+    return HttpResponseRedirect(reverse('videos:video', args=(video.id,)))
 
-    c = Relation_comment(video = video, comment = comment)
-    c.save()
+def comment_video(request, video_id):
+    if request.user.is_authenticated:
+        video = get_object_or_404(Video, pk=video_id)
+        comment = request.POST['comment']
+        user = request.user
+        c = Relation_comment(author = user, video = video, comment = comment)
+        c.save()
     return HttpResponseRedirect(reverse('videos:video', args=(video.id,)))
 
 def comment_proj(request, proj_id):
-    proj = get_object_or_404(Proj, pk=proj_id)
-    comment = request.POST['comment']
-
-    c = Relation_comment_proj(proj = proj, comment = comment)
-    c.save()
-
-    # Create a relation_comment_proj
+    if request.user.is_authenticated:
+        proj = get_object_or_404(Proj, pk=proj_id)
+        comment = request.POST['comment']
+        user = request.user
+        c = Relation_comment_proj(author = user, proj = proj, comment = comment)
+        c.save()
     return HttpResponseRedirect(reverse('videos:proj', args=(proj.id,)))
