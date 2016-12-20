@@ -8,6 +8,7 @@ def index(request):
     all_projs = Proj.objects.all()
     latest_videos = Video.objects.order_by('date')[:10]
     context = {
+        'request': request,
         'projs': all_projs,
         'videos': latest_videos,
     }

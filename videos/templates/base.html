@@ -9,8 +9,14 @@
 </head>
 <body>
 <div id="lateral_bar">
-	<h1> JTX </h1>
-	Se connecter
+    <h1> JTX </h1>
+    {% if request.user.is_authenticated %}
+        Bonjour {{ request.user.username }}
+        <br/>
+        <a href="/logout/">Se déconnecter</a>
+    {% else %}
+        <a href="/login/">Se connecter</a>
+    {% endif %}
 </div>
 
 <div id="central">

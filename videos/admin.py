@@ -1,8 +1,13 @@
 from django.contrib import admin
 from .models import *
+from django.contrib.auth.models import User
 
 admin.site.register(Tag)
 admin.site.register(Relation_proj)
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['username', 'email', 'first_name', 'last_name']
+    search_fields = ['username', 'email', 'first_name', 'last_name']
 
 class CommentProjAdmin(admin.ModelAdmin):
     list_display = ['comment', 'proj', 'date']

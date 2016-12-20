@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import datetime
 
+from django.contrib.auth.models import User
 from django.db import models
 
 class Video(models.Model):
@@ -30,6 +31,11 @@ class Proj(models.Model):
     views = models.IntegerField(default=0)
     def __unicode__(self):
         return self.titre
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User)
+    video = models.ForeignKey(Video)
+    date = models.DateTimeField(auto_now_add = True)
 
 class Relation_proj(models.Model):
     proj = models.ForeignKey(Proj)
