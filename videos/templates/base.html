@@ -29,13 +29,15 @@
 
 <div id="central">
 	<div id="navigation_bar">"
-		<ul>
-			<li><a href="/">Home</a></li>
-      <li><a href="{% url 'videos:projs' %}">Projections</a></li>
-      <li><a href="{% url 'videos:videos' %}">Vidéos</a></li>
-      <li><a href="{% url 'videos:tags' %}">Tags</a></li>
-			<li><a href="#">À propos</a></li>
-		</ul>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="{% url 'videos:projs' %}">Projections</a></li>
+        <li><a href="{% url 'videos:videos' %}">Vidéos</a></li>
+        {% if request.user.is_authenticated %}
+            <li><a href="{% url 'videos:favorites' %}">Favoris</a></li>
+        {% endif %}
+        <li><a href="{% url 'videos:tags' %}">Tags</a></li>
+    </ul>
 	</div>
 
 	<div id="body">

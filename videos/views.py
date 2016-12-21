@@ -5,17 +5,24 @@ from django.core.urlresolvers import reverse
 from .models import *
 
 def index(request):
-    all_projs = Proj.objects.all()
-    latest_videos = Video.objects.order_by('date')[:10]
+    n = 4
+    all_projs = Proj.objects.filter(category__public=True)
+    if (request.user.is_authenticated):
+        all_projs = Proj.objects
+    latest_videos = Video.objects.filter(public=True)
+    if (request.user.is_authenticated):
+        latest_videos = Video.objects
     context = {
         'request': request,
-        'projs': all_projs,
-        'videos': latest_videos,
+        'projs': all_projs.order_by('date').all()[:n],
+        'videos': latest_videos.order_by('date').all()[:n],
     }
     return render(request, 'index.html', context)
 
 def projs(request):
-    projs = Proj.objects.all()
+    projs = Proj.objects.filter(category__public=True).all()
+    if (request.user.is_authenticated):
+        projs = Proj.objects.all()
     context = {
         'projs': projs,
     }
@@ -29,44 +36,61 @@ def tags(request):
     }
     return render(request, 'tags.html', context)
 
+def favorites(request):
+    if (request.user.is_authenticated):
+        user = request.user
+        favorites = Favorite.objects.filter(user = user).all()
+        context = {
+            'favorites': favorites,
+        }
+        return render(request, 'favorites.html', context)
+    else:
+        return index(request)
 
 def videos(request):
-    videos = Video.objects.all()
+    videos = Video.objects.filter(public=True).all()
+    if (request.user.is_authenticated):
+        videos = Video.objects.all()
     context = {
         'videos': videos,
     }
     return render(request, 'videos.html', context)
 
 def tag(request, tag_id):
+    #TODO : À modifier pour public
     tag = get_object_or_404(Tag, pk=tag_id)
     return render(request, 'tag.html', {'tag': tag})
 
 def video(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
-    video.views += 1
-    video.save()
-    n = Favorite.objects.filter(video = video).count()
-    favorite = False
-    if (request.user.is_authenticated):
-        user = request.user
-        favorite = Favorite.objects.filter(user = user, video = video).exists()
-    context = {
-        'video': video,
-        'favorite': favorite,
-        'nb_jaimes': n,
-    }
-    return render(request, 'video.html', context)
+    if video.public or request.user.is_authenticated:
+        video.views += 1
+        video.save()
+        n = Favorite.objects.filter(video = video).count()
+        favorite = False
+        if (request.user.is_authenticated):
+            user = request.user
+            favorite = Favorite.objects.filter(user = user, video = video).exists()
+        context = {
+            'video': video,
+            'favorite': favorite,
+            'nb_jaimes': n,
+        }
+        return render(request, 'video.html', context)
+    return index(request)
 
 def proj(request, proj_id):
     proj = get_object_or_404(Proj, pk=proj_id)
-    proj.views += 1
-    proj.save()
-    videos_list = []
-    context = {
-        'proj': proj,
-        'videos_list': videos_list,
-    }
-    return render(request, 'proj.html', context)
+    if proj.category.public or request.user.is_authenticated:
+        proj.views += 1
+        proj.save()
+        videos_list = []
+        context = {
+            'proj': proj,
+            'videos_list': videos_list,
+        }
+        return render(request, 'proj.html', context)
+    return index(request)
 
 def remove_favorite(request, video_id):
     if request.user.is_authenticated:

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% if favorites %}
+{% load static %}
+<h1>Vidéos aimées</h1>
+	{% for f in favorites %}
+    <a href="{% url 'videos:video' f.video.id %}">
+        <figure style="display:table-cell">
+            <img width="300px" src="{% static 'snapshots/' %}{{f.video.url}}.jpg"/>
+            <figcaption style="font-size:20px">
+                {{f.video.titre}}
+            </figcaption>
+        </figure>
+    </a>
+	{% endfor %}
+
+{% else %}
+    <p>Errors.</p>
+{% endif %}
+
+{% endblock %}
