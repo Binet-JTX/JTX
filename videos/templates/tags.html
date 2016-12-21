@@ -3,11 +3,9 @@
 
 {% if tags %}
 <h1>Tags</h1>
-	<ul>
 	{% for t in tags %}
-    <li><a href="{% url 'videos:tag' t.id %}">{{ t.titre }}</a></li>
+    <a class="tag" href="{% url 'videos:tag' t.id %}">{{ t.titre }}</a>
 	{% endfor %}
-	</ul>
 
 {% else %}
     <p>Errors.</p>

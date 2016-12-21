@@ -13,18 +13,23 @@
   
 {% if request.user.is_authenticated %}
 <br/>
-  <a href="{% url 'videos:favorite' video.id %}">Ajouter aux favoris</a>
+{% if favorite %}
+  <a href="{% url 'videos:remove_favorite' video.id %}">Je n'aime plus</a>
+{% else %}
+  <a href="{% url 'videos:add_favorite' video.id %}">J'aime</a>
+{% endif %}
 {% endif %}
 
   <br/>
   <br/>
   Tags :
   {% for r in video.relation_tag_set.all %}
-    <a class="tag" href="{% url 'videos:tag' r.tag.id %}">{{ r.tag }}</a>
+    <a class="tag" href="{% url 'videos:tag' r.tag.id %}">{{ r.tag.titre }}</a>
   {% endfor %}
- <br/>
- <br/>
-  Vues : {{ video.views }}
+    <br/>
+    <br/>
+    J'aime : {{ nb_jaimes }} <br/>
+    Vues : {{ video.views }}
 
   <br/>
 {% for r in video.relation_comment_set.all %}

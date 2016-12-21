@@ -1,13 +1,19 @@
 {% extends 'base.html'%}
 
 {% block body %}
+{% load static %}
 {% if tag %}
-  <h1>{{ tag.titre }}</h1>
-  <ul>
+    <span class="tag" style="font-size:30px">{{ tag.titre }}</span>
+    <br/><br/>
+
     {% for r in tag.relation_tag_set.all %}
-      <li><a href="{% url 'videos:video' r.video.id %}">{{r.video.titre}}</a></li>
-    {% endfor %}
-  </ul>
+    <a href="{% url 'videos:video' r.video.id %}">
+        <figure style="display:table-cell">
+            <img width="300px" src="{% static 'snapshots/' %}{{r.video.url}}.jpg"/>
+            <figcaption style="font-size:20px">{{r.video.titre}}</figcaption>
+        </figure>
+    </a>
+	{% endfor %}
 
 {% endif %}
 {% endblock %}

@@ -14,7 +14,8 @@ urlpatterns = [
     url(r'^projs/(?P<proj_id>[0-9]+)/$', views.proj, name='proj'),
     url(r'^videos/(?P<video_id>[0-9]+)/$', views.video, name='video'),
     url(r'^tags/(?P<tag_id>[0-9]+)/$', views.tag, name='tag'),
-    url(r'^favorite/(?P<video_id>[0-9]+)/$', views.favorite, name='favorite'),
+    url(r'^add_favorite/(?P<video_id>[0-9]+)/$', views.add_favorite, name='add_favorite'),
+    url(r'^remove_favorite/(?P<video_id>[0-9]+)/$', views.remove_favorite, name='remove_favorite'),
     url(r'^comment_video/(?P<video_id>[0-9]+)/$', views.comment_video, name='comment_video'),
     url(r'^comment_proj/(?P<proj_id>[0-9]+)/$', views.comment_proj, name='comment_proj'),
 ]

@@ -45,7 +45,17 @@ def video(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
     video.views += 1
     video.save()
-    return render(request, 'video.html', {'video': video})
+    n = Favorite.objects.filter(video = video).count()
+    favorite = False
+    if (request.user.is_authenticated):
+        user = request.user
+        favorite = Favorite.objects.filter(user = user, video = video).exists()
+    context = {
+        'video': video,
+        'favorite': favorite,
+        'nb_jaimes': n,
+    }
+    return render(request, 'video.html', context)
 
 def proj(request, proj_id):
     proj = get_object_or_404(Proj, pk=proj_id)
@@ -58,7 +68,14 @@ def proj(request, proj_id):
     }
     return render(request, 'proj.html', context)
 
-def favorite(request, video_id):
+def remove_favorite(request, video_id):
+    if request.user.is_authenticated:
+        video = get_object_or_404(Video, pk=video_id)
+        user = request.user
+        c = Favorite.objects.filter(user = user, video = video).delete()
+    return HttpResponseRedirect(reverse('videos:video', args=(video.id,)))
+
+def add_favorite(request, video_id):
     if request.user.is_authenticated:
         video = get_object_or_404(Video, pk=video_id)
         user = request.user
