@@ -2,12 +2,26 @@
 {% block body %}
 
 {% if projs %}
+{% load static %}
 <h1>Projs</h1>
-	<ul>
 	{% for p in projs %}
-    <li><a href="{% url 'videos:proj' p.id %}">{{ p.titre }}</a></li>
+    <a href="{% url 'videos:proj' p.id %}">
+        <figure style="display:table-cell">
+            <img width="300px" src="{% static 'proj.png' %}"/>
+            <figcaption style="font-size:20px">{{p.titre}}</figcaption>
+        </figure>
+    </a>
 	{% endfor %}
-	</ul>
+
+    <br/><br/>
+    Page :
+    {% for p in pages %}
+        {% if p != page %}
+            <a href="{% url 'videos:projs_page' p %}">{{p}}</a>
+        {% else %}
+            {{p}}
+        {% endif %}
+    {% endfor %}
 
 {% else %}
     <p>Errors.</p>

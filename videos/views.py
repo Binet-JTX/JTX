@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 
 from .models import *
 
-n_page = 5
+n_page = 4
 n_index = 5
 
 def index(request):
@@ -43,11 +43,16 @@ def category(request, category_id):
         return render(request, 'category.html', context)
     return index(request)
 
-def projs(request):
-    projs = Proj.objects.filter(category__public=True).all()
+def projs(request, page=1):
+    projs = Proj.objects.filter(category__public=True)
     if (request.user.is_authenticated):
-        projs = Proj.objects.all()
+        projs = Proj.objects
+    page = int(page)
+    nb_page = ((projs.count() - 1) // n_page) + 1
+    projs = projs.all()[(page - 1) * n_page:page * n_page]
     context = {
+        'page': page,
+        'pages': range(1, nb_page + 1),
         'projs': projs,
     }
     return render(request, 'projs.html', context)
@@ -63,26 +68,31 @@ def proj(request, proj_id):
         return render(request, 'proj.html', context)
     return index(request)
 
-def favorites(request):
+def favorites(request, page=1):
     if (request.user.is_authenticated):
         user = request.user
-        favorites = Favorite.objects.filter(user = user).all()
+        favorites = Favorite.objects.filter(user = user)
+        page = int(page)
+        nb_page = ((favorites.count() - 1) // n_page) + 1
+        favorites = favorites.all()[(page - 1) * n_page:page * n_page]
         context = {
+            'page': page,
+            'pages': range(1, nb_page + 1),
             'favorites': favorites,
         }
         return render(request, 'favorites.html', context)
     else:
         return index(request)
 
-def videos(request, page_id=1):
+def videos(request, page=1):
     videos = Video.objects.filter(public=True)
     if (request.user.is_authenticated):
         videos = Video.objects
-    page_id = int(page_id)
+    page = int(page)
     nb_page = ((videos.count() - 1) // n_page) + 1
-    videos = videos.all()[(page_id - 1) * n_page:page_id * n_page]
+    videos = videos.all()[(page - 1) * n_page:page * n_page]
     context = {
-        'page': page_id,
+        'page': page,
         'pages': range(1, nb_page + 1),
         'videos': videos,
     }
