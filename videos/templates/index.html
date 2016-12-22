@@ -2,13 +2,25 @@
 
 {% block body %}
 
-{% if videos and projs %}
+{% if categories %}
+<h1>Catégories</h1>
+	<ul>
+	{% for c in categories %}
+    <li><a href="{% url 'videos:category' c.id %}">{{ c.titre }}</a></li>
+	{% endfor %}
+	</ul>
+{% endif %}
+
+{% if projs %}
 <h1>Projs</h1>
 	<ul>
 	{% for p in projs %}
     <li><a href="{% url 'videos:proj' p.id %}">{{ p.titre }}</a></li>
 	{% endfor %}
 	</ul>
+{% endif %}
+
+{% if videos %}
 {% load static %}
 <h1>Videos</h1>
 	{% for v in videos %}
@@ -19,9 +31,6 @@
         </figure>
     </a>
 	{% endfor %}
-
-{% else %}
-    <p>Errors.</p>
 {% endif %}
 
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% if categories %}
+<h1>Catégories</h1>
+	<ul>
+	{% for c in categories %}
+    <li><a href="{% url 'videos:category' c.id %}">{{ c.titre }}</a></li>
+	{% endfor %}
+	</ul>
+
+{% else %}
+    <p>Errors.</p>
+{% endif %}
+
+{% endblock %}

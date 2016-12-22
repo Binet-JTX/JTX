@@ -4,20 +4,44 @@ from django.core.urlresolvers import reverse
 
 from .models import *
 
+n_page = 5
+n_index = 5
+
 def index(request):
-    n = 4
-    all_projs = Proj.objects.filter(category__public=True)
+    projs = Proj.objects.filter(category__public=True)
+    videos = Video.objects.filter(public=True)
+    categories = Category.objects.filter(public=True)
     if (request.user.is_authenticated):
-        all_projs = Proj.objects
-    latest_videos = Video.objects.filter(public=True)
-    if (request.user.is_authenticated):
-        latest_videos = Video.objects
+        projs = Proj.objects
+        videos = Video.objects
+        categories = Category.objects
     context = {
         'request': request,
-        'projs': all_projs.order_by('date').all()[:n],
-        'videos': latest_videos.order_by('date').all()[:n],
+        'projs': projs.order_by('date').all()[:n_index],
+        'videos': videos.order_by('date').all()[:n_index],
+        'categories': categories.all()[:n_index],
     }
     return render(request, 'index.html', context)
+
+def categories(request):
+    categories = Category.objects.filter(public=True).all()
+    if (request.user.is_authenticated):
+        categories = Category.objects.all()
+    context = {
+        'categories': categories,
+    }
+    return render(request, 'categories.html', context)
+
+def category(request, category_id):
+    cat = get_object_or_404(Category, pk=category_id)
+    if cat.public or request.user.is_authenticated:
+        projs = Proj.objects.filter(category=cat)
+        context = {
+            'category': cat,
+            'projs': projs,
+        }
+        return render(request, 'category.html', context)
+    return index(request)
 
 def projs(request):
     projs = Proj.objects.filter(category__public=True).all()
@@ -28,13 +52,16 @@ def projs(request):
     }
     return render(request, 'projs.html', context)
 
-
-def tags(request):
-    tags = Tag.objects.all()
-    context = {
-        'tags': tags,
-    }
-    return render(request, 'tags.html', context)
+def proj(request, proj_id):
+    proj = get_object_or_404(Proj, pk=proj_id)
+    if proj.category.public or request.user.is_authenticated:
+        proj.views += 1
+        proj.save()
+        context = {
+            'proj': proj,
+        }
+        return render(request, 'proj.html', context)
+    return index(request)
 
 def favorites(request):
     if (request.user.is_authenticated):
@@ -47,19 +74,19 @@ def favorites(request):
     else:
         return index(request)
 
-def videos(request):
-    videos = Video.objects.filter(public=True).all()
+def videos(request, page_id=1):
+    videos = Video.objects.filter(public=True)
     if (request.user.is_authenticated):
-        videos = Video.objects.all()
+        videos = Video.objects
+    page_id = int(page_id)
+    nb_page = ((videos.count() - 1) // n_page) + 1
+    videos = videos.all()[(page_id - 1) * n_page:page_id * n_page]
     context = {
+        'page': page_id,
+        'pages': range(1, nb_page + 1),
         'videos': videos,
     }
     return render(request, 'videos.html', context)
-
-def tag(request, tag_id):
-    #TODO : À modifier pour public
-    tag = get_object_or_404(Tag, pk=tag_id)
-    return render(request, 'tag.html', {'tag': tag})
 
 def video(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
@@ -79,18 +106,17 @@ def video(request, video_id):
         return render(request, 'video.html', context)
     return index(request)
 
-def proj(request, proj_id):
-    proj = get_object_or_404(Proj, pk=proj_id)
-    if proj.category.public or request.user.is_authenticated:
-        proj.views += 1
-        proj.save()
-        videos_list = []
-        context = {
-            'proj': proj,
-            'videos_list': videos_list,
-        }
-        return render(request, 'proj.html', context)
-    return index(request)
+def tags(request):
+    tags = Tag.objects.all()
+    context = {
+        'tags': tags,
+    }
+    return render(request, 'tags.html', context)
+
+def tag(request, tag_id):
+    #TODO : À modifier pour public
+    tag = get_object_or_404(Tag, pk=tag_id)
+    return render(request, 'tag.html', {'tag': tag})
 
 def remove_favorite(request, video_id):
     if request.user.is_authenticated:

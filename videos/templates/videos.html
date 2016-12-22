@@ -13,6 +13,16 @@
     </a>
 	{% endfor %}
 
+    <br/><br/>
+    Page :
+    {% for p in pages %}
+        {% if p != page %}
+            <a href="{% url 'videos:videos_page' p %}">{{p}}</a>
+        {% else %}
+            {{p}}
+        {% endif %}
+    {% endfor %}
+
 {% else %}
     <p>Errors.</p>
 {% endif %}
