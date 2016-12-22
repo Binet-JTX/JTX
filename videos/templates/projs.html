@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
-{% block body %}
 
-{% if projs %}
+{% block body %}
+{% if elements %}
+
 {% load static %}
-<h1>Projs</h1>
-	{% for p in projs %}
+
+	{% for p in elements %}
     <a href="{% url 'videos:proj' p.id %}">
         <figure style="display:table-cell">
             <img width="300px" src="{% static 'proj.png' %}"/>
@@ -13,18 +14,5 @@
     </a>
 	{% endfor %}
 
-    <br/><br/>
-    Page :
-    {% for p in pages %}
-        {% if p != page %}
-            <a href="{% url 'videos:projs_page' p %}">{{p}}</a>
-        {% else %}
-            {{p}}
-        {% endif %}
-    {% endfor %}
-
-{% else %}
-    <p>Errors.</p>
 {% endif %}
-
 {% endblock %}

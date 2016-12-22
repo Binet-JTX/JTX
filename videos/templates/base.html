@@ -32,18 +32,43 @@
     <ul>
         <li><a href="/">Home</a></li>
         <li><a href="{% url 'videos:categories' %}">Catégories</a></li>
-        <li><a href="{% url 'videos:projs' %}">Projections</a></li>
-        <li><a href="{% url 'videos:videos' %}">Vidéos</a></li>
+        <li><a href="{% url 'videos:projs' 1 %}">Projections</a></li>
+        <li><a href="{% url 'videos:videos' 1 %}">Vidéos</a></li>
         {% if request.user.is_authenticated %}
-            <li><a href="{% url 'videos:favorites' %}">Favoris</a></li>
+            <li><a href="{% url 'videos:favorites' 1 %}">Favoris</a></li>
         {% endif %}
         <li><a href="{% url 'videos:tags' %}">Tags</a></li>
     </ul>
 	</div>
 
 	<div id="body">
+    
+    {% if titre_tag %}
+        <span class="tag" style="font-size:30px">{{titre}}</span><br/><br/>
+    {% else %}
+        <h1>{{titre}}</h1>
+    {% endif %}
+
     {% block body %}
     {% endblock %}
+
+    {% if pages and page and adress %}
+        <br/>
+        <br/>
+        Page :
+        {% for p in pages %}
+            {% if p != page %}
+                {% if id %}
+                    <a href="{% url adress id p %}">{{p}}</a>
+                {% else %}
+                    <a href="{% url adress p %}">{{p}}</a>
+                {% endif %}
+            {% else %}
+                {{p}}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
 	</div>
 </div>
 </body>

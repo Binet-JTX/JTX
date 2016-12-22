@@ -24,7 +24,7 @@
   <br/>
   Tags :
   {% for r in video.relation_tag_set.all %}
-    <a class="tag" href="{% url 'videos:tag' r.tag.id %}">{{ r.tag.titre }}</a>
+    <a class="tag" href="{% url 'videos:tag' r.tag.id 1 %}">{{ r.tag.titre }}</a>
   {% endfor %}
     <br/>
     <br/>

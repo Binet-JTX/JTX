@@ -4,7 +4,7 @@
 {% if tags %}
 <h1>Tags</h1>
 	{% for t in tags %}
-    <a class="tag" style="font-size:25px" href="{% url 'videos:tag' t.id %}">{{ t.titre }}</a>
+    <a class="tag" style="font-size:25px" href="{% url 'videos:tag' t.id 1 %}">{{ t.titre }}</a>
 	{% endfor %}
 
 {% else %}
