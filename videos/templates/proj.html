@@ -3,11 +3,14 @@
 {% block body %}
 {% if proj %}
 {% load static %}
+<div style="margin-top:0;display:table">
+<div style="margin-top:0;display:table-row">
+<div style="margin-top:0;display:table-cell;vertical-align:top">
   <h1>{{ proj.titre }}</h1>
   <h4>{{ proj.date|date:"d/m/Y"  }}</h4>
 	<h2 id="titre_video"></h2>
 
-	<video id="video" width="720px" height="405px" controls></video>
+	<video id="video" width="1008px" height="567px" controls></video>
 
 <script type="text/javascript">
 var video = document.getElementById('video');
@@ -42,14 +45,14 @@ function next(e) {
 launch(1);
 </script>
 
-  <ul>
+  <ol>
     {% for r in proj.relation_proj_set.all %}
     <li>
-			<a href="#" onclick="launch({{forloop.counter}})">{{ r.video.titre }}</a>
-			<a href="{% url 'videos:video' r.video.id %}">(Voir)</a>
+			<a href="{% url 'videos:video' r.video.id %}">{{ r.video.titre }}</a>
+			<a onclick="launch({{forloop.counter}})" href="#">(Voir)</a>
 		</li>
     {% endfor %}
-  </ul>
+  </ol>
 
 Vues : {{ proj.views }}
 <br/>
@@ -71,6 +74,25 @@ Vues : {{ proj.views }}
 </form>
 
 {% endif %}
+</div>
+<div style="vertical-align:top;padding-left:50px;display:table-cell">
+
+<h2>Suggestions</h2>
+
+{% for p in suggestions %}
+<a href="{% url 'videos:proj' p.id %}">
+	<figure style="display:table-cell">
+		<img width="200px" src="{% static 'proj.png' %}"/>
+		<figcaption style="font-size:20px">{{p.titre}}</figcaption>
+	</figure>
+</a>
+<br/><br/>
+{% endfor %}
+
+</div>
+</div>
+</div>
+
 
 {% endif %}
 {% endblock %}

@@ -4,9 +4,12 @@
 
 {% if video %}
 {% load static %}
-  <h1>{{ video.titre }}</h1>
-  <h2>{{ video.date|date:"d/m/Y" }}</h2>
-	<video width="720px" height="405px" controls autoplay>
+<div style="margin-top:0;display:table">
+<div style="margin-top:0;display:table-row">
+<div style="margin-top:0;display:table-cell;vertical-align:top">
+	<h1>{{ video.titre }}</h1>
+    <h2>{{ video.date|date:"d/m/Y" }}</h2>
+    <video id="video" width="1008px" height="567px" controls autoplay>
         <source src="{% static 'videos/' %}{{video.url}}.{{video.extension}}" type="video/mp4">
 		Your browser does not support the video tag.
 	</video>
@@ -14,9 +17,9 @@
 {% if request.user.is_authenticated %}
 <br/>
 {% if favorite %}
-  <a href="{% url 'videos:remove_favorite' video.id %}">Je n'aime plus</a>
+    <a href="{% url 'videos:remove_favorite' video.id %}">Je n'aime plus</a>
 {% else %}
-  <a href="{% url 'videos:add_favorite' video.id %}">J'aime</a>
+    <a href="{% url 'videos:add_favorite' video.id %}">J'aime</a>
 {% endif %}
 {% endif %}
 
@@ -51,7 +54,37 @@
 </form>
 
 {% endif %}
+</div>
+<div style="vertical-align:top;padding-left:50px;display:table-cell">
+
+<h2>Suggestions</h2>
+
+{% for v in suggestions %}
+<a href="{% url 'videos:video' v.id %}">
+	<figure style="display:table-cell">
+		<img width="200px" src="{% static 'snapshots/' %}{{v.url}}.jpg"/>
+		<figcaption style="font-size:20px">{{v.titre}}</figcaption>
+	</figure>
+</a>
+<br/><br/>
+{% endfor %}
+
+</div>
+</div>
+</div>
 
 {% endif %}
+
+
+<script type="text/javascript">
+
+var video = document.getElementById('video')
+
+video.addEventListener('ended',next,false);
+function next(e) {
+	window.location.replace("{% url 'videos:video' suggestions.0.id %}")
+}
+
+</script>
 
 {% endblock %}

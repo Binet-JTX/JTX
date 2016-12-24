@@ -4,8 +4,11 @@ from django.core.urlresolvers import reverse
 
 from .models import *
 
+import random
+
 n_page = 20
 n_index = 5
+n_suggestions = 5
 
 def id(x):
     return x
@@ -70,10 +73,15 @@ def projs(request, page=1):
 def proj(request, proj_id):
     proj = get_object_or_404(Proj, pk=proj_id)
     if proj.category.public or request.user.is_authenticated:
+        all_projs = Proj.objects.filter(category__public=True)
+        if request.user.is_authenticated:
+            all_projs = Proj.objects
+        suggestions = all_projs.all().order_by('?')[:n_suggestions]
         proj.views += 1
         proj.save()
         context = {
             'proj': proj,
+            'suggestions': suggestions,
         }
         return render(request, 'proj.html', context)
     return index(request)
@@ -105,11 +113,15 @@ def video(request, video_id):
         video.save()
         n = Favorite.objects.filter(video = video).count()
         favorite = False
+        all_videos = Video.objects.filter(public=True)
         if request.user.is_authenticated:
+            all_videos = Video.objects
             user = request.user
             favorite = Favorite.objects.filter(user = user, video = video).exists()
+        suggestions = all_videos.all().order_by('?')[:n_suggestions]
         context = {
             'video': video,
+            'suggestions': suggestions,
             'favorite': favorite,
             'nb_jaimes': n,
         }
