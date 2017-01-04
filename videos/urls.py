@@ -6,6 +6,7 @@ app_name = 'videos'
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^test/$', views.populate_bdd, name='test'),
     url(r'^login/$', auth_views.login, {'template_name':'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^projs/(?P<page>[0-9]+)/$', views.projs, name='projs'),

@@ -9,7 +9,7 @@
 <div style="margin-top:0;display:table-cell;vertical-align:top">
 	<h1>{{ video.titre }}</h1>
     <h2>{{ video.date|date:"d/m/Y" }}</h2>
-    <video id="video" width="1008px" height="567px" controls autoplay>
+    <video id="video" width="100%" controls autoplay>
         <source src="{% static 'videos/' %}{{video.url}}.{{video.extension}}" type="video/mp4">
 		Your browser does not support the video tag.
 	</video>

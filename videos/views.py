@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from .models import *
 
 import random
+from os import listdir
 
 n_page = 20
 n_index = 5
@@ -179,3 +180,12 @@ def comment_proj(request, proj_id):
         c = Relation_comment_proj(author = user, proj = proj, comment = comment)
         c.save()
     return HttpResponseRedirect(reverse('videos:proj', args=(proj.id,)))
+
+def populate_bdd(request):
+    files = [f for f in listdir("/home/thibault/.banque/site/videos/static/videos")]
+    for f in files:
+        l = f.split('.')
+        extension = l[-1]
+        base = '.'.join(l[:-1])
+        v = Video(titre = base.replace('_', ' '), url=base,extension=extension)
+        v.save()
