@@ -12,12 +12,11 @@
 {% endif %}
 
 {% if projs %}
-{% load static %}
 <h1>Projs</h1>
 	{% for p in projs %}
     <a href="{% url 'videos:proj' p.id %}">
         <figure style="display:table-cell">
-            <img width="300px" src="{% static 'proj.png' %}"/>
+            <img width="300px" src="{{p.image}}"/>
             <figcaption style="font-size:20px">{{p.titre}}</figcaption>
         </figure>
     </a>
@@ -25,12 +24,11 @@
 {% endif %}
 
 {% if videos %}
-{% load static %}
 <h1>Videos</h1>
 	{% for v in videos %}
     <a href="{% url 'videos:video' v.id %}">
         <figure style="display:table-cell">
-            <img width="300px" src="{% static 'snapshots/' %}{{v.url}}.jpg"/>
+            <img width="300px" src="{{v.url}}.png"/>
             <figcaption style="font-size:20px">{{v.titre}}</figcaption>
         </figure>
     </a>

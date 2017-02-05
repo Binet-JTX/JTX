@@ -8,7 +8,6 @@ class Video(models.Model):
     titre = models.CharField(max_length=100)
     date = models.DateField(default=datetime.date.today)
     url = models.CharField(max_length=1000)
-    extension = models.CharField(max_length=4, default="mp4")
     views = models.IntegerField(default=0)
     public = models.BooleanField(default=False)
     def __str__(self):
@@ -22,6 +21,7 @@ class Tag(models.Model):
 class Category(models.Model):
     titre = models.CharField(max_length=100)
     public = models.BooleanField(default=False)
+    image = models.CharField(max_length=2000, default="http://cdn.wallpapersafari.com/58/12/nyHXSO.jpg")
     def __str__(self):
         return self.titre
 
@@ -30,6 +30,7 @@ class Proj(models.Model):
     category = models.ForeignKey(Category)
     date = models.DateField(default=datetime.date.today)
     views = models.IntegerField(default=0)
+    image = models.CharField(max_length=2000, default="http://cdn.wallpapersafari.com/58/12/nyHXSO.jpg")
     def __str__(self):
         return self.titre
 

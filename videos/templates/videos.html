@@ -3,12 +3,10 @@
 {% block body %}
 {% if elements %}
 
-{% load static %}
-
 	{% for v in elements %}
     <a href="{% url 'videos:video' v.id %}">
         <figure style="display:table-cell">
-            <img width="300px" src="{% static 'snapshots/' %}{{v.url}}.jpg"/>
+            <img width="300px" src="{{v.url}}.png"/>
             <figcaption style="font-size:20px">{{v.titre}}</figcaption>
         </figure>
     </a>

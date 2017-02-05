@@ -60,10 +60,6 @@ class ProjAdmin(admin.ModelAdmin):
     list_display = ['titre', 'category', 'date', 'views']
     list_filter = ['category', 'date', 'views']
     search_fields = ['titre', 'category__titre']
-    fieldsets = [
-        (None, {'fields' : ['category', 'titre']}),
-        ('Date and views', {'fields' : ['date', 'views'], 'classes' : ['collapse']}),
-    ]
     inlines = [VideoInline]
 
 admin.site.register(Proj, ProjAdmin)

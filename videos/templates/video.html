@@ -3,14 +3,13 @@
 {% block body %}
 
 {% if video %}
-{% load static %}
 <div style="margin-top:0;display:table">
 <div style="margin-top:0;display:table-row">
 <div style="margin-top:0;display:table-cell;vertical-align:top">
 	<h1>{{ video.titre }}</h1>
     <h2>{{ video.date|date:"d/m/Y" }}</h2>
     <video id="video" width="1008px" height="567px" controls autoplay>
-        <source src="{% static 'videos/' %}{{video.url}}.{{video.extension}}" type="video/mp4">
+        <source src="{{video.url}}">
 		Your browser does not support the video tag.
 	</video>
   
@@ -62,7 +61,7 @@
 {% for v in suggestions %}
 <a href="{% url 'videos:video' v.id %}">
 	<figure style="display:table-cell">
-		<img width="200px" src="{% static 'snapshots/' %}{{v.url}}.jpg"/>
+		<img width="200px" src="{{v.url}}.png"/>
 		<figcaption style="font-size:20px">{{v.titre}}</figcaption>
 	</figure>
 </a>
