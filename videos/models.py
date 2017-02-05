@@ -21,7 +21,6 @@ class Tag(models.Model):
 class Category(models.Model):
     titre = models.CharField(max_length=100)
     public = models.BooleanField(default=False)
-    image = models.CharField(max_length=2000, default="http://cdn.wallpapersafari.com/58/12/nyHXSO.jpg")
     def __str__(self):
         return self.titre
 

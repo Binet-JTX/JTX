@@ -1,4 +1,2 @@
 *.pyc
-videos/static/videos/*
-videos/static/snapshots/*
-db.sqlite3
+*.txt

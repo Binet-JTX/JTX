@@ -2,7 +2,7 @@ from videos.models import Video, Proj, Relation_proj, Category
 
 def importer(filename, category = "A trier", proj = "A trier 2015"):
     c = Category.objects.get_or_create(titre=category)[0]
-    p = Proj.objects.get_or_create(titre=proj, category=c)[0]
+    p = Proj.objects.get_or_create(titre=proj, category=c, image="http://cdn.wallpapersafari.com/58/12/nyHXSO.jpg")[0]
     f = open(filename)
     for x in f.read().splitlines():
         false_title = x.split('/')[-1].split('.')[-2].split('_')
