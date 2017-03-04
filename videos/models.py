@@ -18,6 +18,12 @@ class Tag(models.Model):
     def __str__(self):
         return self.titre
 
+class Implique(models.Model):
+    grand = models.ForeignKey(Tag, related_name="grand")
+    petit = models.ForeignKey(Tag, related_name="petit")
+    def __str__(self):
+        return self.petit.titre + " => " + self.grand.titre
+
 class Category(models.Model):
     titre = models.CharField(max_length=100)
     public = models.BooleanField(default=False)

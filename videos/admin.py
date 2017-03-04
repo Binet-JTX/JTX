@@ -27,6 +27,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 admin.site.register(Relation_comment, CommentAdmin)
 admin.site.register(Relation_comment_proj, CommentProjAdmin)
+admin.site.register(Implique)
 
 # --------------------
 # --------------------
