@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="{% static 'style.css' %}"/>
   <title>JTX</title>
 </head>
-<body>
+<body >
 <div id="lateral_bar">
     <h1> JTX </h1>
     {% if request.user.is_authenticated %}
@@ -27,7 +27,7 @@
     {% endif %}
 </div>
 
-<div id="central">
+<div id="central" >
 	<div id="navigation_bar">"
     <ul>
         <li><a href="/">Home</a></li>
@@ -41,7 +41,7 @@
     </ul>
 	</div>
 
-	<div id="body">
+	<div id="body" >
     
     {% if titre_tag %}
         <span class="tag" style="font-size:30px">{{titre}}</span><br/><br/>
