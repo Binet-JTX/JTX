@@ -47,7 +47,7 @@ launch(1);
   <ol>
     {% for r in proj.relation_proj_set.all %}
     <li>
-			<a href="{% url 'videos:video' r.video.id %}">{{ r.video.titre }}</a>
+			<a href="{% url 'video' r.video.id %}">{{ r.video.titre }}</a>
 			<a onclick="launch({{forloop.counter}})" href="#">(Voir)</a>
 		</li>
     {% endfor %}
@@ -66,7 +66,7 @@ Vues : {{ proj.views }}
 <br/>
 <br/>
 
-<form action="{% url 'videos:comment_proj' proj.id %}" method="post">
+<form action="{% url 'comment_proj' proj.id %}" method="post">
 {% csrf_token %}
 <input type="text" name="comment" id="comment" />
 <input type="submit" value="Poster" />
@@ -79,7 +79,7 @@ Vues : {{ proj.views }}
 <h2>Suggestions</h2>
 
 {% for p in suggestions %}
-<a href="{% url 'videos:proj' p.id %}">
+<a href="{% url 'proj' p.id %}">
 	<figure style="display:table-cell">
         <img width="200px" src="{{p.image}}"/>
 		<figcaption style="font-size:20px">{{p.titre}}</figcaption>

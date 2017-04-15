@@ -50,7 +50,7 @@ def pagination(request, template, context, elements, page, adress, f = id):
     context['page'] = page
     elements = map(f, elements)
     context['elements'] = elements
-    context['adress'] = 'videos:' + adress
+    context['adress'] = adress
     return render(request, template, context)
 
 def category(request, category_id, page=1):

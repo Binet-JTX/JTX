@@ -2,8 +2,6 @@ from django.conf.urls import url
 from . import views
 from django.contrib.auth import views as auth_views
 
-app_name = 'videos'
-
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^test/$', views.populate_bdd, name='test'),

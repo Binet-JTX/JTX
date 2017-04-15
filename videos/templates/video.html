@@ -16,9 +16,9 @@
 {% if request.user.is_authenticated %}
 <br/>
 {% if favorite %}
-    <a href="{% url 'videos:remove_favorite' video.id %}">Je n'aime plus</a>
+    <a href="{% url 'remove_favorite' video.id %}">Je n'aime plus</a>
 {% else %}
-    <a href="{% url 'videos:add_favorite' video.id %}">J'aime</a>
+    <a href="{% url 'add_favorite' video.id %}">J'aime</a>
 {% endif %}
 {% endif %}
 
@@ -26,7 +26,7 @@
   <br/>
   Tags :
   {% for r in video.relation_tag_set.all %}
-    <a class="tag" href="{% url 'videos:tag' r.tag.id 1 %}">{{ r.tag.titre }}</a>
+    <a class="tag" href="{% url 'tag' r.tag.id 1 %}">{{ r.tag.titre }}</a>
   {% endfor %}
     <br/>
     <br/>
@@ -46,7 +46,7 @@
 <br/>
 <br/>
 
-<form action="{% url 'videos:comment_video' video.id %}" method="post">
+<form action="{% url 'comment_video' video.id %}" method="post">
 {% csrf_token %}
 <input type="text" name="comment" id="comment" />
 <input type="submit" value="Poster" />
@@ -59,7 +59,7 @@
 <h2>Suggestions</h2>
 
 {% for v in suggestions %}
-<a href="{% url 'videos:video' v.id %}">
+<a href="{% url 'video' v.id %}">
 	<figure style="display:table-cell">
 		<img width="200px" src="{{v.url}}.png"/>
 		<figcaption style="font-size:20px">{{v.titre}}</figcaption>
@@ -81,7 +81,7 @@ var video = document.getElementById('video')
 
 video.addEventListener('ended',next,false);
 function next(e) {
-	window.location.replace("{% url 'videos:video' suggestions.0.id %}")
+	window.location.replace("{% url 'video' suggestions.0.id %}")
 }
 
 </script>

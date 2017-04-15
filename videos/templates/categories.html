@@ -5,7 +5,7 @@
 <h1>Catégories</h1>
 	<ul>
 	{% for c in categories %}
-    <li><a href="{% url 'videos:category' c.id 1 %}">{{ c.titre }}</a></li>
+    <li><a href="{% url 'category' c.id 1 %}">{{ c.titre }}</a></li>
 	{% endfor %}
 	</ul>
 
